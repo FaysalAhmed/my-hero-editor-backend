@@ -52,6 +52,22 @@ app.get('/heroes', (req: Request, res: Response) => {
     return;
 });
 
+app.post('/heroes', (req: Request, res: Response) => {
+    const { title, subtitle, buttonText, buttonColor, backgroundImage } = req.body;
+    
+    db.run(
+        `UPDATE heroes SET title = ?, subtitle = ?, buttonText = ?, buttonColor = ?, backgroundImage = ? WHERE id = 1`,
+        [title, subtitle, buttonText, buttonColor, backgroundImage],
+        function (err) {
+            if (err) {
+                res.status(500).json({ error: 'Database error' });
+                return;
+            }
+            res.json({ message: 'Hero updated successfully' });
+        }
+    );
+});
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
